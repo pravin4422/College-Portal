@@ -1,3 +1,9 @@
+.idea/
+out/
+.git/
+*.iml
+*.log
+
 web/WEB-INF/lib/src
 web/WEB-INF/lib/build.xml
 web/WEB-INF/lib/CHANGES
