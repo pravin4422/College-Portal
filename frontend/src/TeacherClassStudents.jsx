@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './css/teacherprofile.css';
 
-const BASE = 'https://studentportal-production-3f43.up.railway.app';
+const BASE = 'https://college-portal-b4ge.onrender.com';
 
 function TeacherClassStudents() {
   const { className } = useParams();

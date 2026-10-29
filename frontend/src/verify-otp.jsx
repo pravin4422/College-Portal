@@ -18,7 +18,7 @@ function VerifyOtp() {
   const handleResend = async () => {
     const email = localStorage.getItem('userEmail') || '';
     try {
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/resend-otp', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/resend-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -76,7 +76,7 @@ function VerifyOtp() {
 
     try {
       // Connects directly to your Java servlet domain route
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/verify', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/verify', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' 

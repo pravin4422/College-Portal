@@ -71,7 +71,7 @@ function ValidatedDashboardRoute({ children }) {
     if (role === 'teacher') { setStatus('ok'); return; }
     const email = localStorage.getItem('userEmail');
     if (!email) { setStatus('no-profile'); return; }
-    fetch(`https://studentportal-production-3f43.up.railway.app/api/students?email=${encodeURIComponent(email)}`)
+    fetch(`https://college-portal-b4ge.onrender.com/api/students?email=${encodeURIComponent(email)}`)
       .then(r => r.json())
       .then(data => {
         const record = Array.isArray(data) ? data[0] : (data && data.id ? data : null);

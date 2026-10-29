@@ -29,7 +29,7 @@ function Signup() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://studentportal-production-3f43.up.railway.app/api/auth/check-admin')
+    fetch('https://college-portal-b4ge.onrender.com/api/auth/check-admin')
       .then(res => res.json())
       .then(data => { if (data.adminExists) setAdminTaken(true); })
       .catch(() => {});
@@ -45,7 +45,7 @@ function Signup() {
 
     try {
       // Send data as a true raw JSON payload to satisfy getJsonValue() string match parser
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/signup', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/signup', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' 

@@ -31,7 +31,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/login', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), password: password.trim() })
@@ -55,7 +55,7 @@ function Login() {
     if (resendCooldown > 0) return;
     setLoading(true);
     try {
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/login', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), password: password.trim() })
@@ -85,7 +85,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/auth/verify', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), otpCode: otpCode.trim() })
@@ -103,13 +103,13 @@ function Login() {
         if (data.role === 'teacher') {
           const teacherEntry = { id: email.trim(), email: email.trim(), name: data.name || data.idNo || email.trim(), idNo: data.idNo || '' };
           try {
-            const regRes = await fetch('https://studentportal-production-3f43.up.railway.app/api/dashboard-data?studentId=teachers_registry&type=teacher_registry');
+            const regRes = await fetch('https://college-portal-b4ge.onrender.com/api/dashboard-data?studentId=teachers_registry&type=teacher_registry');
             const regData = await regRes.json();
             const existing = Array.isArray(regData.content) ? regData.content : [];
             const updated = existing.some(t => t.id === teacherEntry.id)
               ? existing.map(t => t.id === teacherEntry.id ? teacherEntry : t)
               : [...existing, teacherEntry];
-            await fetch('https://studentportal-production-3f43.up.railway.app/api/dashboard-data', {
+            await fetch('https://college-portal-b4ge.onrender.com/api/dashboard-data', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ studentId: 'teachers_registry', type: 'teacher_registry', content: updated }),

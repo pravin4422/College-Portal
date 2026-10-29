@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/studentprofile.css';
 
-const BASE = 'https://studentportal-production-3f43.up.railway.app';
+const BASE = 'https://college-portal-b4ge.onrender.com';
 
 function StudentProfile() {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function StudentProfile() {
     }
 
     try {
-      const response = await fetch(`https://studentportal-production-3f43.up.railway.app/api/students?email=${encodeURIComponent(loggedInEmail)}`);
+      const response = await fetch(`${BASE}/api/students?email=${encodeURIComponent(loggedInEmail)}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -94,7 +94,7 @@ function StudentProfile() {
     };
 
     try {
-      const response = await fetch(`https://studentportal-production-3f43.up.railway.app/api/students?id=${studentData.id}`, {
+      const response = await fetch(`${BASE}/api/students?id=${studentData.id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json' 
@@ -128,7 +128,7 @@ function StudentProfile() {
   const handleDeleteProfile = async () => {
     if (window.confirm("want to delete your student profile permanently.")) {
       try {
-        const response = await fetch(`https://studentportal-production-3f43.up.railway.app/api/students?id=${studentData.id}`, {
+        const response = await fetch(`${BASE}/api/students?id=${studentData.id}`, {
           method: 'DELETE'
         });
 

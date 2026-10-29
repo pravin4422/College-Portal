@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/studentdashboard.css';
 
-const BASE = 'https://studentportal-production-3f43.up.railway.app';
+const BASE = 'https://college-portal-b4ge.onrender.com';
 
 function ProfileImage({ src, fallback }) {
   const [failed, setFailed] = useState(false);

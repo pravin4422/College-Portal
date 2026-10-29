@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import { useNavbar } from './navbar/NavbarContext';
 import './css/studentdetails.css';
 
-const BASE = 'https://studentportal-production-3f43.up.railway.app';
+const BASE = 'https://college-portal-b4ge.onrender.com';
 
 function StudentPhoto({ path, name }) {
   const [failed, setFailed] = useState(false);

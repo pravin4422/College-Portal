@@ -13,7 +13,7 @@ function StudentForm() {
     }
     const email = localStorage.getItem('userEmail');
     if (!email) return;
-    fetch(`https://studentportal-production-3f43.up.railway.app/api/students?email=${encodeURIComponent(email)}`)
+    fetch(`https://college-portal-b4ge.onrender.com/api/students?email=${encodeURIComponent(email)}`)
       .then(res => res.ok ? res.json() : [])
       .then(data => {
         const exists = Array.isArray(data) ? data.length > 0 : (data && Object.keys(data).length > 0);
@@ -56,7 +56,7 @@ function StudentForm() {
     if (recentPhoto) data.append('recentPhoto', recentPhoto);
 
     try {
-      const response = await fetch('https://studentportal-production-3f43.up.railway.app/api/students', {
+      const response = await fetch('https://college-portal-b4ge.onrender.com/api/students', {
         method: 'POST',
         body: data
       });

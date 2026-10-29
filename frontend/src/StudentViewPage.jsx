@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import './css/studentviewpage.css';
 
-const BASE = 'https://studentportal-production-3f43.up.railway.app';
+const BASE = 'https://college-portal-b4ge.onrender.com';
 
 function PhotoAvatar({ path, name }) {
   const [failed, setFailed] = useState(false);

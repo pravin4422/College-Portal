@@ -14,7 +14,7 @@ function Home() {
     if (!email) return false;
     try {
       const res = await fetch(
-        `https://studentportal-production-3f43.up.railway.app/api/students?email=${encodeURIComponent(email)}`
+        `https://college-portal-b4ge.onrender.com/api/students?email=${encodeURIComponent(email)}`
       );
       if (!res.ok) return false;
       const data = await res.json();
