@@ -25,5 +25,7 @@ RUN mkdir -p /usr/local/tomcat/webapps/ROOT/WEB-INF/classes && \
     @/tmp/sources.txt && \
     echo "=== Compiled classes ===" && find /usr/local/tomcat/webapps/ROOT/WEB-INF/classes -name "*.class"
 
+RUN sed -i 's/<Server port="8005" shutdown="SHUTDOWN">/<Server port="-1" shutdown="SHUTDOWN">/' /usr/local/tomcat/conf/server.xml
+
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
