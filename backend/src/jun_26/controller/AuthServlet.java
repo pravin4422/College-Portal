@@ -291,8 +291,7 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     // 2. Perform database insertion with is_first_login hardcoded to 1
-                    String hashedPassword = at.favre.lib.crypto.bcrypt.BCrypt.withDefaults()
-                            .hashToString(12, password.trim().toCharArray());
+                    String hashedPassword = jun_26.util.PasswordUtil.hash(password.trim());
                     try (Connection conn = getDatabaseConnection();
                          PreparedStatement ps = conn.prepareStatement(
                                  "INSERT INTO app_users (name, age, email, password, role, id_no, is_first_login) VALUES (?, ?, ?, ?, ?, ?, 1)")) {

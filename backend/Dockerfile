@@ -13,11 +13,7 @@ COPY ./web /usr/local/tomcat/webapps/ROOT
 RUN mkdir -p /usr/local/tomcat/webapps/ROOT/student_uploads
 
 RUN curl -L -o /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/jakarta.mail-2.0.1.jar \
-    https://repo1.maven.org/maven2/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar && \
-    curl -L -o /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/bcrypt-0.10.2.jar \
-    https://repo1.maven.org/maven2/at/favre/lib/bcrypt/0.10.2/bcrypt-0.10.2.jar && \
-    curl -L -o /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/bytes-1.5.0.jar \
-    https://repo1.maven.org/maven2/at/favre/lib/bytes/1.5.0/bytes-1.5.0.jar
+    https://repo1.maven.org/maven2/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar
 
 RUN echo "=== JARs in WEB-INF/lib ===" && ls /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
 

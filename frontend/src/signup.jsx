@@ -60,15 +60,16 @@ function Signup() {
         })
       });
       
-      const data = await response.json();
-      
+      let data = {};
+      try { data = await response.json(); } catch (_) {}
+
       if (response.ok || data.success === true) {
         localStorage.setItem('userRole', role);
         localStorage.setItem('userIdNo', idNo);
         alert("Registration successful");
         navigate('/login'); 
       } else {
-        alert(data.error || 'Registration failed');
+        alert(data.error || `Registration failed (${response.status})`);
       }
     } catch (err) {
       alert('Error connecting to backend');

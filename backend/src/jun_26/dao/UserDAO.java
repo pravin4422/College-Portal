@@ -34,9 +34,7 @@ public class UserDAO {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.next()) return false;
-                String storedHash = rs.getString("password");
-                return at.favre.lib.crypto.bcrypt.BCrypt.verifyer()
-                        .verify(password.toCharArray(), storedHash).verified;
+                return jun_26.util.PasswordUtil.verify(password, rs.getString("password"));
             }
         }
     }
