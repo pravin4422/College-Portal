@@ -160,7 +160,7 @@ public class AuthServlet extends HttpServlet {
 
                             int status = conn.getResponseCode();
                             if (status == 201) {
-                                System.out.println("[OTP] Email sent successfully to: " + finalEmail);
+                                System.out.println("[OTP] Email sent successfully to: " + finalEmail.replaceAll("(.).+(@.+)", "$1***$2"));
                             } else {
                                 java.io.InputStream errStream = conn.getErrorStream();
                                 String errBody = "";
@@ -267,6 +267,7 @@ public class AuthServlet extends HttpServlet {
                 if (name == null || ageStr == null || email == null || password == null || role == null || idNo == null ||
                         name.trim().isEmpty() || ageStr.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty() || role.trim().isEmpty() || idNo.trim().isEmpty()) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    setGlobalHeaders(request, response);
                     out.print("{\"success\":false,\"error\":\"All fields (name, age, email, password, role, idNo) are mandatory.\"}");
                     return;
                 }
@@ -282,6 +283,7 @@ public class AuthServlet extends HttpServlet {
                             rs.next();
                             if (rs.getInt(1) > 0) {
                                 response.setStatus(HttpServletResponse.SC_CONFLICT);
+                                setGlobalHeaders(request, response);
                                 out.print("{\"success\":false,\"error\":\"An admin already exists for this school.\"}");
                                 return;
                             }
@@ -289,6 +291,8 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     // 2. Perform database insertion with is_first_login hardcoded to 1
+                    String hashedPassword = at.favre.lib.crypto.bcrypt.BCrypt.withDefaults()
+                            .hashToString(12, password.trim().toCharArray());
                     try (Connection conn = getDatabaseConnection();
                          PreparedStatement ps = conn.prepareStatement(
                                  "INSERT INTO app_users (name, age, email, password, role, id_no, is_first_login) VALUES (?, ?, ?, ?, ?, ?, 1)")) {
@@ -296,26 +300,29 @@ public class AuthServlet extends HttpServlet {
                         ps.setString(1, name.trim());
                         ps.setInt(2, age);
                         ps.setString(3, email.trim());
-                        ps.setString(4, password.trim());
+                        ps.setString(4, hashedPassword);
                         ps.setString(5, role.trim());
                         ps.setString(6, idNo.trim());
 
                         int rowsInserted = ps.executeUpdate();
 
                         if (rowsInserted > 0) {
+                            setGlobalHeaders(request, response);
                             out.print("{\"success\":true,\"message\":\"User registration successful! Please proceed to login.\"}");
                         } else {
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            setGlobalHeaders(request, response);
                             out.print("{\"success\":false,\"error\":\"Failed to complete registration inside the database.\"}");
                         }
                     }
                 } catch (NumberFormatException nfe) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    setGlobalHeaders(request, response);
                     out.print("{\"success\":false,\"error\":\"Age must be a valid numeric integer value.\"}");
                     return;
                 } catch (java.sql.SQLIntegrityConstraintViolationException e) {
-                    // Catches duplicate entries if 'email' is designated as a UNIQUE column in your database schema
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
+                    setGlobalHeaders(request, response);
                     out.print("{\"success\":false,\"error\":\"An account with this email address already exists.\"}");
                     return;
                 }
@@ -336,19 +343,14 @@ public class AuthServlet extends HttpServlet {
 
 
     private String getJsonValue(String json, String key) {
-        String pattern = "\"" + key + "\":\"";
-        int start = json.indexOf(pattern);
-        if (start == -1) {
-            pattern = "\"" + key + "\":";
-            start = json.indexOf(pattern);
-            if (start == -1) return null;
-            int end = json.indexOf(",", start + pattern.length());
-            if (end == -1) end = json.indexOf("}", start + pattern.length());
-            return json.substring(start + pattern.length(), end).trim().replace("\"", "");
-        }
-        start += pattern.length();
-        int end = json.indexOf("\"", start);
-        if (end == -1) return null;
-        return json.substring(start, end);
+        // Match "key":"value" (string) or "key":value (number/boolean)
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(
+                "\"" + java.util.regex.Pattern.quote(key) + "\"\\s*:\\s*(?:(?:\"((?:[^\"\\\\]|\\\\.)*)\")|([^,}\\]]+))");
+        java.util.regex.Matcher m = p.matcher(json);
+        if (!m.find()) return null;
+        String strVal = m.group(1);
+        if (strVal != null) return strVal;
+        String rawVal = m.group(2);
+        return rawVal != null ? rawVal.trim() : null;
     }
 }

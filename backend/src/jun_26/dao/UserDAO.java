@@ -28,13 +28,15 @@ public class UserDAO {
 
     // Login matching execution routine
     public boolean validateLogin(String email, String password) throws Exception {
-        String sql = "SELECT id FROM app_users WHERE email = ? AND password = ?";
+        String sql = "SELECT password FROM app_users WHERE email = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
-            stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next();
+                if (!rs.next()) return false;
+                String storedHash = rs.getString("password");
+                return at.favre.lib.crypto.bcrypt.BCrypt.verifyer()
+                        .verify(password.toCharArray(), storedHash).verified;
             }
         }
     }
