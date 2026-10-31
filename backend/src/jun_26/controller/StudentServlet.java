@@ -43,6 +43,7 @@ public class StudentServlet extends HttpServlet {
     private static final java.util.Set<String> ALLOWED_ORIGINS = new java.util.HashSet<>(java.util.Arrays.asList(
         "https://roaring-flan-4fccf4.netlify.app",
         "https://wondrous-malasada-b08493.netlify.app",
+        "https://college-portal-zeta.vercel.app",
         "http://localhost:5173",
         "http://localhost:3000"
     ));
